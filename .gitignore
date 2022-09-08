@@ -2,5 +2,7 @@
 db.sqlite3
 /Lib
 venv/
+/include
+
 
 .vscode
