@@ -1,0 +1,75 @@
+{% extends 'base1.html' %}
+{% load mathfilters %}
+{% load humanize %}
+
+{% block content %}
+{% include 'snippets/menu.html' %}
+<!--    <script>-->
+<!--        $(document).ready(function()-->
+<!--        {-->
+<!--            var inv_cost;-->
+<!--            var total_cost=0;-->
+<!--            $('tr#hd td:nth-child(8)').each(function()-->
+<!--            {-->
+<!--                inv_cost=$(this).html();-->
+<!--                total_cost+=parseInt(inv_cost.replace(/,/g, ""))-->
+<!--                $('#op_prt').text(total_cost.toLocaleString());-->
+
+<!--            });-->
+<!--        });-->
+
+<!--    </script>-->
+
+    <h1 class="page-header">{{form_head}}</h1>
+
+  {% if object %}
+
+    <div class="container my-5 py-5 col-md-12">
+      <div class="row col panel no-print">
+        <a href="/daily_summary"><button class="btn btn-success btn-lg">
+            Purchase Summary
+        </button></a>
+      </div>
+      <h2 class="text-center text-uppercase">Sales Daily Summary</h2>
+      <div class="row">
+          <table class="table table-striped table-bordered">
+          <tr>
+              <th>Name</th>
+              <th>Sales Qty(kg)</th>
+              <th>Amount</th>
+          </tr>
+              {% for line in object %}
+                {% for sale in sales %}
+
+                {% endfor %}
+                  <tr id="hd">
+
+                      <td>{{line.title}}</td>
+                      <td>{{line.total_buy_today.0|intcomma}}</td>
+                      <td>{{line.total_buy_today.1|intcomma}}</td>
+                  </tr>
+
+              {% endfor %}
+
+          </table>
+      </div>
+        <div class="pagination">
+          <span class="step-links">
+              {% if object.has_previous %}
+                  <a href="?page=1">&laquo; first</a>
+                  <a href="?page={{ object.previous_page_number }}">previous</a>
+              {% endif %}
+
+              <span class="current">
+                  Page {{ object.number }} of {{ object.paginator.num_pages }}.
+              </span>
+
+              {% if object.has_next %}
+                  <a href="?page={{ object.next_page_number }}">next</a>
+                  <a href="?page={{ object.paginator.num_pages }}">last &raquo;</a>
+              {% endif %}
+          </span>
+        </div>
+    </div>
+  {% endif %}
+{% endblock %}

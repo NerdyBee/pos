@@ -1,0 +1,231 @@
+
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html">P&M Geo-Crystal LTD</a>
+        </div>
+
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+
+        <ul class="nav navbar-nav navbar-left navbar-top-links">
+            <li><a href="#"><i class="fa fa-home fa-fw"></i> Mineral Processing Company </a></li>
+        </ul>
+
+        <ul class="nav navbar-right navbar-top-links">
+
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i> {{request.session.username}} <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="/password"><i class="fa fa-user fa-fw"></i> Change Password</a>
+                    </li>
+                    <!--li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                    </li-->
+                    <li class="divider"></li>
+                    <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- /.navbar-top-links -->
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="sidebar-search">
+                        <div class="input-group custom-search-form">
+<!--                            <input type="text" class="form-control" placeholder="Search...">-->
+<!--                            <span class="input-group-btn">-->
+<!--                                <button class="btn btn-primary" type="button">-->
+<!--                                    <i class="fa fa-search"></i>-->
+<!--                                </button>-->
+<!--                            </span>-->
+                            <h3>Point of Sales</h3>
+                        </div>
+                        <!-- /input-group -->
+                    </li>
+                    <li>
+                        <a href="/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Shop<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="/expenses">Expenses</a>
+                            </li>
+<!--                            <li>-->
+<!--                                <a href="/outbank">Out Bank</a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a href="/other_income">Other Income</a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a href="/sales_return">Supply Return</a>-->
+<!--                            </li>-->
+
+<!--                            <li>-->
+<!--                                <a href="/purchase_return">Purchase Return</a>-->
+<!--                            </li>-->
+
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-wrench fa-fw"></i> Store<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="/inventory">Inventory</a>
+                            </li>
+<!--                            <li>-->
+<!--                                <a href="/suppliers">Suppliers</a>-->
+<!--                            </li>-->
+                            <li>
+                                <a href="/purchase">Purchase</a>
+                            </li>
+
+<!--                            <li>-->
+<!--                                <a href="/damage">Damages</a>-->
+<!--                            </li>-->
+
+                            <li>
+                                <a href="/transfer">Transfer</a>
+                            </li>
+
+<!--                            <li>-->
+<!--                                <a href="/promo">KDV Promo</a>-->
+<!--                            </li>-->
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li class="">
+                        <a href="#"><i class="fa fa-files-o fa-fw"></i> Suppliers<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="/suppliers">Suppliers Profile</a>
+                            </li>
+                            <li>
+                                <a href="/supplier_credit">Make Payment</a>
+                            </li>
+                            <li>
+                                <a href="/supply_debt">Debt</a>
+                            </li>
+                            <li>
+                                <a href="/supplier_receivable">Payable</a>
+                            </li>
+
+                            <li>
+                                <a href="/supplier_payable">Receivable</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-search fa-fw"></i> Processing<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="/products">Products</a>
+                            </li>
+                            <li>
+                                <a href="/processing">Processed</a>
+                            </li>
+                        </ul>
+
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Sales<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="/paid_sales">Paid Sales</a>
+                            </li>
+                            <li>
+                                <a href="/credit_sales">Credit Sales</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+<!--                    <li>-->
+<!--                        <a href="/cash_book"><i class="fa fa-table fa-fw"></i> Cash Book</a>-->
+<!--                    </li>-->
+                    <li class="">
+                        <a href="#"><i class="fa fa-files-o fa-fw"></i> Customers<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="" href="/customer">Customers Profile</a>
+                            </li>
+                            <li>
+                                <a href="/deposit">Receive Payment</a>
+                            </li>
+                            <li>
+                                <a href="/loan">I.O.U</a>
+                            </li>
+                            <li>
+                                <a href="/debt">Debt</a>
+                            </li>
+                            <li>
+                                <a href="/receivable">Receivable</a>
+                            </li>
+
+                            <li>
+                                <a href="/payable">Payable</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-laptop fa-fw"></i> Report<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="/stock_report">Stock</a>
+                            </li>
+                            <li>
+                                <a href="/raw_report">Finished Goods</a>
+                            </li>
+                            <li>
+                                <a href="/sales_report">Paid Report</a>
+                            </li>
+                            <li>
+                                <a href="/credit_report">Credit Report</a>
+                            </li>
+                            {% if request.user.is_staff %}
+                            <li>
+                                <a href="#">Summary<span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    <li>
+                                        <a href="/daily_summary">Daily Summary</a>
+                                    </li>
+                                    <li>
+                                        <a href="/monthly_summary">Monthly Summary</a>
+                                    </li>
+                                    <li>
+                                        <a href="/yearly_summary">Yearly Summary</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            {% endif %}
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    {% if request.user.is_staff %}
+                    <li>
+                        <a href="#"><i class="fa fa-user fa-fw"></i> Admin<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="/register">User</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>

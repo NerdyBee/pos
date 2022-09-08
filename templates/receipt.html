@@ -1,0 +1,109 @@
+{% extends 'base1.html' %}
+{% load humanize %}
+{% load mathfilters %}
+
+{% block content %}
+{% include 'snippets/menu.html' %}
+    <script>
+        $(document).ready(function()
+        {
+            var inv_cost;
+            var total_cost=0;
+            $('tr#hd td:nth-child(2)').each(function()
+            {
+                inv_cost=$(this).html();
+                total_cost+=parseInt(inv_cost.replace(/,/g, ""))
+                $('#tt_pay').text(total_cost.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2})
+                );
+
+            });
+        });
+
+    </script>
+    <h1 class="page-header">{{form_head}}</h1>
+    <div class="row container col-md-12">
+        <h2>P&M GEO-CRYSTAL LTD</h2>
+        <P><strong> Address: </strong>Plateau state board quarters, behind B-Division Bukuru, Jos South.</P>
+        <p> Jos. Plateau State. <strong> Tel: </strong> 08160613517</p>
+        <p><strong>{{form_head}}</strong></p>
+        <p><strong>Name:</strong> {{object1.customer}}</p>
+        <p><strong>Date:</strong> {{object1.added_date}}</p>
+        <!--p>Prepaid By: {{object1.user}}</p-->
+    </div>
+  {% if object %}
+
+    <div class="container my-5 py-5 col-md-12">
+      <!--h2 class="text-center text-uppercase">{{form_head}}</h2-->
+      <hr class="star-light mb-5">
+      <br />
+      <div class="row">
+          <table class="table table-striped table-hover">
+          <thead>
+          <tr>
+              <th>#</th>
+              <th>Amount</th>
+              <!--th>Method</th-->
+              <!--th>Added By</th>
+              <th>Added Date</th-->
+          {% with sum_total=0 %}
+          </tr>
+          </thead>
+              {% for line in object %}
+          <tr id="hd">
+              <td>{{ object.start_index|add:forloop.counter0 }}</td>
+              <td>{{line.amount|intcomma}}</td>
+              {% if line.sale_type == 'CS' %}
+              <!--td>CASH</td-->
+              {% else %}
+              <!--td>CHEQUE</td-->
+              {% endif %}
+              <!--td>{{line.user}}</td>
+              <td>{{line.timestamp}}</td-->
+          </tr>
+
+              {% endfor %}
+              <tr>
+                  <td align="right">Sum = </td>
+                  <td id="tt_pay"></td>
+                  <!--td></td-->
+
+              </tr>
+              {% endwith %}
+          </table>
+          <br />
+          {% for ln in object2 %}
+          {% if ln.current_bal < 0 %}
+              <p>Outstanding : {{ln.current_bal|abs|intcomma}}</p>
+              <br />
+          {% elif ln.current_bal > 0 %}
+              <p>Advance : {{ln.current_bal|abs|intcomma}}</p>
+              <br />
+          {% endif %}
+          {% endfor %}
+          <p>For any complaint / suggestions, please call :</p>
+          <br />
+          <p class="text-center">*** THANKS FOR YOUR PATRONAGE ***</p>
+      </div>
+        <div class="no-print" align="center"><a class="print" HREF="javascript:window.print()"><input class="btn btn-success" type="button" value="Print" ></a> </div>
+        <!--div class="pagination">
+          <span class="step-links">
+              {% if object.has_previous %}
+                  <a href="?page=1">&laquo; first</a>
+                  <a href="?page={{ object.previous_page_number }}">previous</a>
+              {% endif %}
+
+              <span class="current">
+                  Page {{ object.number }} of {{ object.paginator.num_pages }}.
+              </span>
+
+              {% if object.has_next %}
+                  <a href="?page={{ object.next_page_number }}">next</a>
+                  <a href="?page={{ object.paginator.num_pages }}">last &raquo;</a>
+              {% endif %}
+          </span>
+        </div-->
+    </div>
+  {% endif %}
+{% endblock %}

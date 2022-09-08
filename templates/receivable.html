@@ -1,0 +1,110 @@
+{% extends 'base1.html' %}
+{% load humanize %}
+
+{% block content %}
+{% include 'snippets/menu.html' %}
+    <script>
+        $(document).ready(function()
+        {
+            var inv_cost;
+            var total_cost=0;
+            $('td:nth-child(5)').each(function()
+            {
+                inv_cost=$(this).html();
+                total_cost+=parseInt(inv_cost.replace(/,/g, ""))
+                $('#total').text(total_cost.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2})
+                );
+
+            });
+        });
+    </script>
+    <h1 class="page-header">{{form_head}}</h1>
+
+
+    {% if myFilter %}
+    <!--div-- class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Search
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="">
+                            <form class="form-inline col-md-12 px-2" method="get">
+                                <div class="form-group">
+                                    {{myFilter.form}}
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div-->
+    {% endif %}
+
+  {% if object %}
+
+    <div class="container my-5 py-5 col-md-12">
+      <h2 class="text-center text-uppercase">{{form_head}}</h2>
+      <hr class="star-light mb-5">
+<!--        <a href="/export_receivable" class="btn btn-success mb-3">Export Report</a>-->
+        <br />
+      <br />
+      <div class="row">
+          <table class="table table-striped table-bordered">
+          <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Address</th>
+              <th>Account</th>
+              <th>Added By</th>
+              <th>Added Date</th>
+          </tr>
+              {% for line in object %}
+              {% if line.current_bal  < 0 %}
+          <tr>
+              <td>{{ object.start_index }}</td>
+              <td>{{line.name}}</td>
+              <td>{{line.phone}}</td>
+              <td>{{line.address}}</td>
+              <td>{{line.current_bal|intcomma|cut:"-"}}</td>
+              <td>{{line.user}}</td>
+              <td>{{line.added_date}}</td>
+
+              </tr>
+              {% endif %}
+              {% endfor %}
+              <tr>
+                  <td colspan="3"></td>
+                  <td align="right">Sum Total = </td>
+                  <td id="total"></td>
+                  <td colspan="2" class="page-header"></td>
+              </tr>
+          </table>
+      </div>
+        <!--div class="pagination">
+          <span class="step-links">
+              {% if object.has_previous %}
+                  <a href="?page=1">&laquo; first</a>
+                  <a href="?page={{ object.previous_page_number }}">previous</a>
+              {% endif %}
+
+              <span class="current">
+                  Page {{ object.number }} of {{ object.paginator.num_pages }}.
+              </span>
+
+              {% if object.has_next %}
+                  <a href="?page={{ object.next_page_number }}">next</a>
+                  <a href="?page={{ object.paginator.num_pages }}">last &raquo;</a>
+              {% endif %}
+          </span>
+        </div-->
+    </div>
+  {% endif %}
+{% endblock %}

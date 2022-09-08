@@ -1,0 +1,67 @@
+{% extends 'base1.html' %}
+{% load mathfilters %}
+{% load humanize %}
+
+{% block content %}
+{% include 'snippets/menu.html' %}
+    <h1 class="page-header">{{form_head}}</h1>
+
+  {% if object %}
+
+    <div class="container my-5 py-5 col-md-12">
+      <h2 class="text-center text-uppercase"></h2>
+      <hr class="star-light mb-5">
+      <br />
+      <div class="row">
+          <table class="table table-striped table-bordered">
+          <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Sale Price</th>
+              <th>Opening Stock</th>
+              <th>Inflow</th>
+              <th>Sales Return</th>
+              <th>Sales</th>
+              <th>Damages</th>
+              <th>KDV Promo</th>
+              <th>Purchase Return</th>
+              <th>Closing Stock</th>
+          </tr>
+              {% for line in object %}
+          <tr>
+              <td>{{ object.start_index|add:forloop.counter0 }}</td>
+              <td>{{line.title}}</td>
+              <td>{{line.price|intcomma}}</td>
+              <td>{{line.stock_now|add:line.|intcomma}}</td>
+              <td>{{line.total_stock|intcomma}}</td>
+              <td>{{line.total_return_i|intcomma}}</td>
+              <td>{{line.Sale.quantity|intcomma}}</td>
+              <td>{{line.total_damages|intcomma}}</td>
+              <td>{{line.total_promo|intcomma}}</td>
+              <td>{{line.total_return_o|intcomma}}</td>
+              <td>{{line.stock_now|intcomma}}</td>
+              </tr>
+
+              {% endfor %}
+          </table>
+      </div>
+        <div class="pagination">
+          <span class="step-links">
+              {% if object.has_previous %}
+                  <a href="?page=1">&laquo; first</a>
+                  <a href="?page={{ object.previous_page_number }}">previous</a>
+              {% endif %}
+
+              <span class="current">
+                  Page {{ object.number }} of {{ object.paginator.num_pages }}.
+              </span>
+
+              {% if object.has_next %}
+                  <a href="?page={{ object.next_page_number }}">next</a>
+                  <a href="?page={{ object.paginator.num_pages }}">last &raquo;</a>
+              {% endif %}
+          </span>
+        </div>
+    </div>
+  {% endif %}
+{% endblock %}

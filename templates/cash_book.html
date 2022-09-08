@@ -1,0 +1,116 @@
+{% extends 'base1.html' %}
+{% load mathfilters %}
+{% load humanize %}
+
+{% block content %}
+{% include 'snippets/menu.html' %}
+    <h1 class="page-header">Cash Book</h1>
+
+    <div class="container my-5 py-5 col-md-12">
+      <h2 class="text-center text-uppercase">{{form_head}}</h2>
+      <hr class="star-light mb-5">
+      <br />
+      <div class="row">
+          <table class="table table-striped table-bordered">
+			<thead>
+			<tr>
+				<th>#</th>
+				<th>Date</th>
+				<th>Desc</th>
+				<th>Amount</th>
+				<th>#</th>
+				<th>Date</th>
+				<th>Desc</th>
+				<th>Amount</th>
+			</tr>
+			</thead>
+			<tbody>
+
+			<tr>
+			<td >1</td>
+			<td >{{object}}</td>
+			<td >Cash Sales</td>
+			<td >{{cash|intcomma}}</td>
+
+			<td >1</td>
+			<td >{{object}}</td>
+			<td >Sales Return</td>
+			<td >{{sales_r|intcomma}}</td>
+			</tr>
+			<tr>
+			<td >2</td>
+			<td >{{object}}</td>
+			<td >Cheque Sales</td>
+			<td >{{cheque|intcomma}}</td>
+
+			<td >2</td>
+			<td >{{object}}</td>
+			<td >Expenses</td>
+			<td >{{exp|intcomma}}</td>
+			</tr>
+			<tr>
+			<td >3</td>
+			<td >{{object}}</td>
+			<td >Cash Deposit</td>
+			<td >{{deposit|intcomma}}</td>
+
+			<td >3</td>
+			<td >{{object}}</td>
+			<td >Out Bank</td>
+			<td >{{bank|intcomma}}</td>
+			</tr>
+			<tr>
+			<td >4</td>
+			<td >{{object}}</td>
+			<td >Cheque Deposit</td>
+			<td >{{cqDeposit|intcomma}}</td>
+
+			<td >4</td>
+			<td >{{object}}</td>
+			<td >Loan</td>
+			<td >{{loan|intcomma}}</td>
+			</tr>
+<!--			<tr>-->
+<!--			<td >5</td>-->
+<!--			<td >{{object}}</td>-->
+<!--			<td >Other Income Cash</td>-->
+<!--			<td >{{other|intcomma}}</td>-->
+
+<!--			<td >5</td>-->
+<!--			<td >{{object}}</td>-->
+<!--			<td ></td>-->
+<!--			<td ></td>-->
+<!--			</tr>-->
+<!--			<tr>-->
+<!--			<td >6</td>-->
+<!--			<td >{{object}}</td>-->
+<!--			<td >Other Income Cheque</td>-->
+<!--			<td >{{cqOther|intcomma}}</td>-->
+
+<!--			<td >6</td>-->
+<!--			<td >{{object}}</td>-->
+<!--			<td ></td>-->
+<!--			<td ></td>-->
+<!--			</tr>-->
+			<tr>
+			<td align="right" colspan="3"> Total = </td><td>{{cash | add:cheque | add:deposit | add:cqDeposit | add:other | add:cqOther|intcomma}}</td>
+			<td align="right" colspan="3"> Total = </td><td>{{exp | add:bank | add:sales_r |add:loan|intcomma}}</td>
+			</tr>
+			<tr>
+			<td >7</td>
+			<td >{{object}}</td>
+			<td >B/F</td>
+			<td >{{lst|intcomma}}</td>
+			</tr><tr>
+                {% with income=cash|add:deposit|add:other %}
+                {% with outcash=exp|add:bank|add:sales_r|add:loan %}
+			<td align="right" colspan="5"> Cash Balance = </td><td colspan="3">{{income|sub:outcash|add:lst|intcomma}}</td>
+                {% endwith %}
+                {% endwith %}
+			</tr>
+			</tbody>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+          </table>
+      </div>
+    </div>
+{% endblock %}

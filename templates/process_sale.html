@@ -1,0 +1,212 @@
+{% extends 'base1.html' %}
+{% load mathfilters %}
+{% load humanize %}
+
+{% block content %}
+{% include 'snippets/menu.html' %}
+    <script>
+        $(document).ready(function()
+        {
+            var inv_cost;
+            var total_cost=0;
+            $('td:nth-child(4)').each(function()
+            {
+                inv_cost=$(this).html();
+                total_cost+=Number(inv_cost.replace(/,/g, ""))
+                $('#total').text(total_cost.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2})
+                );
+
+            });
+        });
+        $(document).ready(function()
+        {
+            var inv_cost;
+            var total_cost=0;
+            $('td:nth-child(5)').each(function()
+            {
+                inv_cost=$(this).html();
+                total_cost+=Number(inv_cost.replace(/,/g, ""))
+                $('#total1').text(total_cost.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2})
+                );
+
+            });
+        });
+    </script>
+
+    <h1 class="page-header">{{form_head}}</h1>
+    <div class="panel no-print">
+    {% if edit %} <div class="row mb-12">
+        {% if form.errors %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div id="form_errors">
+                {% for key, value in form.errors.items %}
+                    <strong>{{ value }}</strong>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+        <form class="form-group col-md-6" method='POST' action="" enctype="multipart/form-data">{% csrf_token %}
+          <div class="mb-3">
+              {% for field in form %}
+              <div class="form-group">
+                  <label>{{ field.label }}</label>
+                 {{ field }}
+              </div>
+              {% endfor %}
+            <!--label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div-->
+          </div>
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div> {% endif %}
+    {% if not edit %}
+        <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Processed Raw Material</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-group" method='POST' action="" enctype="multipart/form-data">{% csrf_token %}
+                          {% for field in form %}
+                          <div class="form-group">
+                              <label>{{ field.label }}</label>
+                             {{ field }}
+                          </div>
+                          {% endfor %}
+                        <!--label for="exampleInputEmail1" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div-->
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    </div>
+    <div class="row col panel no-print">
+        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+            Processed Raw Material
+        </button>
+    </div>
+    {% endif %}
+    {% if myFilter %}
+    <div class="row no-print">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Search
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="">
+                            <form class="form-inline col-md-12 px-2" method="get">
+                                <div class="form-group">
+                                    {{myFilter.form}}
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+  {% if object %}
+
+    <div class="container my-5 py-5 col-md-12">
+      <h2 class="text-center text-uppercase">{{form_head}}</h2>
+      <hr class="star-light mb-5">
+      <br />
+      <div class="row">
+          <table class="table table-striped table-bordered">
+          <tr>
+              <th>#</th>
+              <th>Product</th>
+              <th>Batch Number</th>
+              <th>Quantity</th>
+              <th>Processed</th>
+              <th>Added By</th>
+              <th>Added Date</th>
+              <th class="no-print">Option</th>
+          </tr>
+              {% for line in object %}
+          <tr>
+              <td>{{ object.start_index|add:forloop.counter0 }}</td>
+              <td>{{line.item}}</td>
+              <td>{{line.invoice_no|stringformat:"06d"}}</td>
+              <td>{{line.quantity|floatformat:2|intcomma}}</td>
+              <td>{{line.sum_total|floatformat:2|intcomma}}</td>
+              <td>{{line.user}}</td>
+              <td>{{line.timestamp}}</td>
+              <td class="no-print">
+                  <!--a href="#{{line.id}}" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fa fa-flag"></i>
+                    </span>
+                  </a-->
+
+                  <a href="/processing/{{line.id}}" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fa fa-edit"></i>
+                    </span>
+                  </a>
+
+                  <a href="/process_invoice/{{line.id}}" class="btn btn-warning btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fa fa-eye"></i>
+                    </span>
+                  </a>
+              </td>
+              </tr>
+              {% endfor %}
+              <tr>
+                  <td colspan="2"></td>
+                  <td align="right">Sum Total = </td>
+                  <td id="total"></td>
+                  <td id="total1"></td>
+                  <td colspan="3" class="page-header"></td>
+              </tr>
+          </table>
+      </div>
+        <div class="pagination no-print">
+          <span class="step-links">
+              {% if object.has_previous %}
+                  <a href="?page=1">&laquo; first</a>
+                  <a href="?page={{ object.previous_page_number }}">previous</a>
+              {% endif %}
+
+              <span class="current">
+                  Page {{ object.number }} of {{ object.paginator.num_pages }}.
+              </span>
+
+              {% if object.has_next %}
+                  <a href="?page={{ object.next_page_number }}">next</a>
+                  <a href="?page={{ object.paginator.num_pages }}">last &raquo;</a>
+              {% endif %}
+          </span>
+        </div>
+    </div>
+  {% endif %}
+{% endblock %}

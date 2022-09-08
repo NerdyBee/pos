@@ -1,0 +1,113 @@
+{% extends 'base1.html' %}
+
+{% block content %}
+{% include 'snippets/menu.html' %}
+    <h1 class="page-header">{{form_head}}</h1>
+    <form class="form-group col-md-6" method='POST' action="." enctype="multipart/form-data">{% csrf_token %}
+      <div class="mb-3">
+          {% for field in form %}
+          <div class="form-group">
+              <label>{{ field.label }}</label>
+             {{ field }}
+          </div>
+          {% endfor %}
+        <!--label for="exampleInputEmail1" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div-->
+      </div>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    {% if myFilter %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Search
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="">
+                            <form class="form-inline col-md-12 px-2" method="get">
+                                <div class="form-group">
+                                    {{myFilter.form}}
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+  {% if object %}
+
+    <div class="container my-5 py-5 col-md-12">
+      <h2 class="text-center text-uppercase">{{form_head}}</h2>
+      <hr class="star-light mb-5">
+      <br />
+      <div class="row">
+          <table class="table table-striped table-bordered">
+          <tr>
+              <th>#</th>
+              <th>Customer</th>
+              <th>Invoice Number</th>
+              <th>Description</th>
+              <th>Added By</th>
+              <th>Added Date</th>
+              <th>Option</th>
+          </tr>
+              {% for line in object %}
+          <tr>
+              <td>{{ object.start_index|add:forloop.counter0 }}</td>
+              <td>{{line.customer}}</td>
+              <td>{{line.invoice_no|stringformat:"06d"}}</td>
+              <td>{{line.description}}</td>
+              <td>{{line.user}}</td>
+              <td>{{line.timestamp}}</td>
+              <td>
+                  <a href="#{{line.id}}" class="btn btn-primary btn-icon-split"> <!--# ?mda={{line.id}} -->
+                    <span class="icon text-white-50">
+                      <i class="fa fa-flag"></i>
+                    </span>
+                  </a>
+
+                  <!--a href="{{line.id}}" class="btn btn-success btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fa fa-edit"></i>
+                    </span>
+                  </a-->
+
+                  <a href="/promo_invoice/{{line.id}}" class="btn btn-warning btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fa fa-eye"></i>
+                    </span>
+                  </a>
+              </td>
+              </tr>
+              {% endfor %}
+          </table>
+      </div>
+        <!--div class="pagination">
+          <span class="step-links">
+              {% if object.has_previous %}
+                  <a href="?page=1">&laquo; first</a>
+                  <a href="?page={{ object.previous_page_number }}">previous</a>
+              {% endif %}
+
+              <span class="current">
+                  Page {{ object.number }} of {{ object.paginator.num_pages }}.
+              </span>
+
+              {% if object.has_next %}
+                  <a href="?page={{ object.next_page_number }}">next</a>
+                  <a href="?page={{ object.paginator.num_pages }}">last &raquo;</a>
+              {% endif %}
+          </span>
+        </div-->
+    </div>
+  {% endif %}
+{% endblock %}
